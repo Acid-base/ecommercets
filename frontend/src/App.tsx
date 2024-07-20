@@ -1,35 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// my-medusa-store/frontend/src/App.tsx
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ProductList from './components/ProductList';
+import ProductDetail from './components/ProductDetail';
+import Cart from './components/Cart';
+import Checkout from './components/Checkout';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { ChakraProvider } from '@chakra-ui/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { CartItem } from './types';
 
-function App() {
-  const [count, setCount] = useState(0)
+// Create a new QueryClient instance
+const queryClient = new QueryClient();
+
+const App: React.FC = () => {
+  // State to manage cart items
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<ProductList />} />
+            <Route path="/products/:productId" element={<ProductDetail />} />
+            <Route
+              path="/cart"
+              element={
+                <Cart cartItems={cartItems} setCartItems={setCartItems} />
+              }
+            />
+            <Route
+              path="/checkout"
+              element={<Checkout cartItems={cartItems} />}
+            />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </ChakraProvider>
+    </QueryClientProvider>
+  );
+};
 
-export default App
+export default App;
+

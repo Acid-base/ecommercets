@@ -1,13 +1,5 @@
 const dotenv = require("dotenv");
-dotenv.config();
 
-module.exports = {
-  projectConfig: {
-    redis_url: process.env.REDIS_URL || "redis://redis:6379"
-  },
-};
-
- // Connect to Redis container
 let ENV_FILE_NAME = "";
 switch (process.env.NODE_ENV) {
   case "production":
@@ -30,8 +22,8 @@ try {
 } catch (e) {}
 
 // CORS when consuming Medusa from admin
-
-  const cors = process.env.ADMIN_CORS || "http://localhost:7000,http://localhost:7001";
+const ADMIN_CORS =
+  process.env.ADMIN_CORS || "http://localhost:7000,http://localhost:7001";
 
 // CORS to avoid issues when consuming Medusa from a client
 const STORE_CORS = process.env.STORE_CORS || "http://localhost:8000";
@@ -94,7 +86,3 @@ module.exports = {
   plugins,
   modules,
 };
-
-const ADMIN = process.env.ADMIN_CORS || "http://localhost
-
-
