@@ -1,3 +1,4 @@
+
 // my-medusa-store/frontend/src/components/Footer.tsx
 import { Box, Flex, Text, useColorModeValue } from '@chakra-ui/react';
 

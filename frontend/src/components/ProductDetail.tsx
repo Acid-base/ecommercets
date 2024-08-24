@@ -68,7 +68,7 @@ const ProductDetail: React.FC = () => {
     return (
       <Box p={4} bg={bgColor}>
         <Heading as="h2" size="lg">
-          Error loading product: {error.message}
+          Error loading product: {(error as Error).message}
         </Heading>
       </Box>
     );
@@ -112,3 +112,4 @@ const ProductDetail: React.FC = () => {
 };
 
 export default ProductDetail;
+

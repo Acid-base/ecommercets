@@ -1,9 +1,8 @@
-// my-medusa-store/frontend/src/components/ProductList.tsx
 import React from 'react';
 import { fetchData } from '../api/utils';
 import ProductCard from './ProductCard';
 import { Product } from '../types';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
 import {
   Box,
   Heading,
@@ -12,6 +11,7 @@ import {
   Spinner,
   Alert,
   AlertIcon,
+  Text,
 } from '@chakra-ui/react';
 
 interface ProductListProps {
@@ -19,9 +19,9 @@ interface ProductListProps {
 }
 
 const ProductList: React.FC<ProductListProps> = () => {
-  const { isLoading, error, data: products } = useQuery({
-    queryKey: ['products'], // The query key
-    queryFn: () => fetchData<Product[]>('/admin/products'), // The query function
+  const { isLoading, error, data: products }: UseQueryResult<Product[], Error> = useQuery({
+    queryKey: ['products'],
+    queryFn: () => fetchData<Product[]>('/admin/products'),
   });
 
   const bgColor = useColorModeValue('gray.100', 'gray.700');
@@ -64,7 +64,7 @@ const ProductList: React.FC<ProductListProps> = () => {
         Our Products
       </Heading>
       <SimpleGrid columns={[1, 2, 3]} spacing={4} mt={4}>
-        {products.map((product: Product) => ( // Now you are safe to map
+        {products.map((product: Product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </SimpleGrid>
